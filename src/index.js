@@ -11,36 +11,35 @@ function getTimeStamp() {
   return new Date().getTime();
 }
 
-function addToRun(id) {
-  const value = fnStacks.get(id);
-  runArray.add(value);
+function executeFn(value) {
+  const { fn, args } = value;
+  fn(...args);
 }
 
 function runFunction() {
   if (runArray.size === 0) return;
-  runArray.forEach((value) => {
-    const { fn, args } = value;
-    fn(...args);
-  });
+  runArray.forEach(executeFn);
   runArray.clear();
 }
 
+const checkTick = currentTimeTick => (value, id) => {
+  const { nextTick, ms, mode } = value;
+  if (currentTimeTick - nextTick >= 0) {
+    runArray.add(value);
+    if (mode === MODE_TIMEOUT) {
+      fnStacks.delete(id);
+    } else {
+      fnStacks.set(id, {
+        ...value,
+        nextTick: nextTick + ms,
+      });
+    }
+  }
+};
+
 function loop() {
   const currentTimeTick = getTimeStamp();
-  fnStacks.forEach((value, id) => {
-    const { nextTick, ms, mode } = value;
-    if (currentTimeTick - nextTick >= 0) {
-      addToRun(id);
-      if (mode === MODE_TIMEOUT) {
-        fnStacks.delete(id);
-      } else {
-        fnStacks.set(id, {
-          ...value,
-          nextTick: nextTick + ms,
-        });
-      }
-    }
-  });
+  fnStacks.forEach(checkTick(currentTimeTick));
   runFunction();
   if (fnStacks.size === 0) {
     rafStarted = false;
