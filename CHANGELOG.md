@@ -2,10 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-x.x.x / <year>-<month>-<day>
-==================
+<a name="1.0.0"></a>
+# 1.0.0 (2018-01-03)
 
-  * Bug fix -
-  * Feature -
-  * Chore -
-  * Docs -
+FIRST RELEASE!!
