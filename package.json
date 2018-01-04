@@ -1,7 +1,7 @@
 {
   "name": "requestanimationframe-timer",
   "version": "1.0.2",
-  "description": "",
+  "description": "setTimeout and setInterval by using requestAnimationFrame",
   "main": "dist/cjs.js",
   "scripts": {
     "test": "jest",
