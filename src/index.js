@@ -1,4 +1,4 @@
-const raf = require('raf');
+import raf from 'raf';
 
 const MODE_TIMEOUT = 0;
 const MODE_INTERVAL = 1;
