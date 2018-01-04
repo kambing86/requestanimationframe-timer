@@ -1,6 +1,6 @@
 {
   "name": "requestanimationframe-timer",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "setTimeout and setInterval by using requestAnimationFrame",
   "keywords": [
     "clearInterval",
