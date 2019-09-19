@@ -23,7 +23,6 @@
     "url": "https://github.com/kambing86/requestanimationframe-timer.git"
   },
   "scripts": {
-    "appveyor:test": "npm run test",
     "prebuild": "npm run clean",
     "build": "cross-env NODE_ENV=production babel src -d dist --ignore 'src/**/*.test.js'",
     "clean": "del-cli dist",
@@ -32,14 +31,7 @@
     "prepublish": "npm run build",
     "release": "standard-version",
     "security": "./scripts/security.sh",
-    "start": "npm run build -- -w",
-    "test": "jest",
-    "test:coverage": "jest --collectCoverageFrom='src/**/*.js' --coverage",
-    "test:watch": "jest --watch",
-    "travis:coverage": "npm run test:coverage -- --runInBand",
-    "travis:lint": "npm run lint && npm run security",
-    "travis:test": "npm run test -- --runInBand",
-    "webpack-defaults": "webpack-defaults"
+    "start": "npm run build -- -w"
   },
   "pre-commit": "lint-staged",
   "dependencies": {
@@ -47,7 +39,6 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-jest": "^22.4.4",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
@@ -56,12 +47,9 @@
     "eslint": "^4.19.1",
     "eslint-config-webpack": "^1.2.5",
     "eslint-plugin-import": "^2.18.2",
-    "jest": "^22.4.4",
     "lint-staged": "^6.1.1",
     "pre-commit": "^1.2.2",
-    "standard-version": "^4.4.0",
-    "webpack": "^3.12.0",
-    "webpack-defaults": "^1.6.0"
+    "standard-version": "^4.4.0"
   },
   "engines": {
     "node": ">= 4.3 < 5.0.0 || >= 5.10"

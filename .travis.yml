@@ -5,9 +5,7 @@ before_install:
 stages:
   - security
   - quality
-  # - test
   - build
-  # - deploy
 cache:
   - yarn
   - directories:
@@ -19,16 +17,5 @@ jobs:
     - stage: quality
       name: lint
       script: yarn lint
-    # - stage: test
-    #   name: jest
-    #   script: yarn test
     - stage: build
       script: yarn build
-    # - stage: deploy
-    #   deploy:
-    #     provider: pages
-    #     skip_cleanup: true
-    #     github_token: $GITHUB_TOKEN
-    #     local_dir: ./build
-    #     on:
-    #       branch: master
