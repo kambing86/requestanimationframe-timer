@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/kambing86/requestanimationframe-timer/compare/v1.0.5...v2.0.0) (2019-12-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* use babel 7 and only node >=10.18
+
+* use babel 7 and only node >=10.18 ([c5122f0](https://github.com/kambing86/requestanimationframe-timer/commit/c5122f0974e68e60cbf310ef3679a087453da702))
+
 ### [1.0.5](https://github.com/kambing86/requestanimationframe-timer/compare/v1.0.4...v1.0.5) (2019-09-19)
 
 
