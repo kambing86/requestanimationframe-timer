@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/kambing86/requestanimationframe-timer/compare/v3.0.0...v3.0.1) (2020-01-08)
+
+
+### Bug Fixes
+
+* fix type definition ([73acca2](https://github.com/kambing86/requestanimationframe-timer/commit/73acca2f388539025d648318b3828abd2ccc12a3))
+
 ## [3.0.0](https://github.com/kambing86/requestanimationframe-timer/compare/v2.0.0...v3.0.0) (2020-01-08)
 
 
