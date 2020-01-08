@@ -8,7 +8,7 @@ enum MODE {
 interface Execution {
   fn: Function;
   ms: number;
-  args: any;
+  args: any[];
   mode: MODE;
 }
 
@@ -16,8 +16,8 @@ interface NextExecution extends Execution {
   nextTick: number;
 }
 
-const fnStacks = new Map<number, NextExecution>();
-const runArray = new Set();
+const fnMap = new Map<number, NextExecution>();
+const executionSet = new Set<NextExecution>();
 let rafStarted = false;
 let startId = 0;
 
@@ -31,19 +31,19 @@ function executeFn(value: NextExecution) {
 }
 
 function runFunction() {
-  if (runArray.size === 0) return;
-  runArray.forEach(executeFn);
-  runArray.clear();
+  if (executionSet.size === 0) return;
+  executionSet.forEach(executeFn);
+  executionSet.clear();
 }
 
 const checkTick = (currentTimeTick: number) => (value: NextExecution, id: number) => {
   const { nextTick, ms, mode } = value;
   if (currentTimeTick - nextTick >= 0) {
-    runArray.add(value);
+    executionSet.add(value);
     if (mode === MODE.MODE_TIMEOUT) {
-      fnStacks.delete(id);
+      fnMap.delete(id);
     } else {
-      fnStacks.set(id, {
+      fnMap.set(id, {
         ...value,
         nextTick: nextTick + ms,
       });
@@ -52,14 +52,14 @@ const checkTick = (currentTimeTick: number) => (value: NextExecution, id: number
 };
 
 function loop() {
-  if (fnStacks.size === 0) {
+  if (fnMap.size === 0) {
     rafStarted = false;
     return;
   }
   const currentTimeTick = getTimeStamp();
-  fnStacks.forEach(checkTick(currentTimeTick));
+  fnMap.forEach(checkTick(currentTimeTick));
   runFunction();
-  if (fnStacks.size === 0) {
+  if (fnMap.size === 0) {
     rafStarted = false;
     return;
   }
@@ -69,7 +69,7 @@ function loop() {
 function addId({ fn, ms, args, mode }: Execution) {
   if (!fn) return null;
   const currentId = startId;
-  fnStacks.set(currentId, {
+  fnMap.set(currentId, {
     fn,
     ms,
     nextTick: getTimeStamp() + ms,
@@ -85,14 +85,14 @@ function addId({ fn, ms, args, mode }: Execution) {
 }
 
 function removeId(id: number) {
-  if (fnStacks.has(id)) {
-    fnStacks.delete(id);
+  if (fnMap.has(id)) {
+    fnMap.delete(id);
   }
 }
 
 export default {
-  setTimeout: (fn: Function, ms = 0, ...args: any) => addId({ fn, ms, args, mode: MODE.MODE_TIMEOUT }),
+  setTimeout: (fn: Function, ms = 0, ...args: any[]) => addId({ fn, ms, args, mode: MODE.MODE_TIMEOUT }),
   clearTimeout: removeId,
-  setInterval: (fn: Function, ms = 0, ...args: any) => addId({ fn, ms, args, mode: MODE.MODE_INTERVAL }),
+  setInterval: (fn: Function, ms = 0, ...args: any[]) => addId({ fn, ms, args, mode: MODE.MODE_INTERVAL }),
   clearInterval: removeId,
 };
