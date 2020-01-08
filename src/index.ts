@@ -52,6 +52,10 @@ const checkTick = (currentTimeTick: number) => (value: NextExecution, id: number
 };
 
 function loop() {
+  if (fnStacks.size === 0) {
+    rafStarted = false;
+    return;
+  }
   const currentTimeTick = getTimeStamp();
   fnStacks.forEach(checkTick(currentTimeTick));
   runFunction();
@@ -83,9 +87,6 @@ function addId({ fn, ms, args, mode }: Execution) {
 function removeId(id: number) {
   if (fnStacks.has(id)) {
     fnStacks.delete(id);
-  }
-  if (fnStacks.size === 0) {
-    rafStarted = false;
   }
 }
 
