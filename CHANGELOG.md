@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/kambing86/requestanimationframe-timer/compare/v2.0.0...v3.0.0) (2020-01-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* commonjs must use require('requestanimationframe-timer').default
+
+### Bug Fixes
+
+* performance tweak ([3852b08](https://github.com/kambing86/requestanimationframe-timer/commit/3852b089910afa74aecd439c08ab94f2db5b84d6))
+
+
+* use typescript ([6c7caff](https://github.com/kambing86/requestanimationframe-timer/commit/6c7caff1a38c7fd5230b6aaca171fd3fd78f4182))
+
 ## [2.0.0](https://github.com/kambing86/requestanimationframe-timer/compare/v1.0.5...v2.0.0) (2019-12-30)
 
 
