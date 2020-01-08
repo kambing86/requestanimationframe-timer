@@ -90,9 +90,7 @@ function removeId(id: number) {
   }
 }
 
-export default {
-  setTimeout: (fn: Function, ms = 0, ...args: any[]) => addId({ fn, ms, args, mode: MODE.MODE_TIMEOUT }),
-  clearTimeout: removeId,
-  setInterval: (fn: Function, ms = 0, ...args: any[]) => addId({ fn, ms, args, mode: MODE.MODE_INTERVAL }),
-  clearInterval: removeId,
-};
+export const setTimeout = (fn: Function, ms = 0, ...args: any[]) => addId({ fn, ms, args, mode: MODE.MODE_TIMEOUT });
+export const clearTimeout = removeId;
+export const setInterval = (fn: Function, ms = 0, ...args: any[]) => addId({ fn, ms, args, mode: MODE.MODE_INTERVAL });
+export const clearInterval = removeId;
