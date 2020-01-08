@@ -1,8 +1,22 @@
 import raf from 'raf';
 
-const MODE_TIMEOUT = 0;
-const MODE_INTERVAL = 1;
-const fnStacks = new Map();
+enum MODE {
+  MODE_TIMEOUT = 0,
+  MODE_INTERVAL = 1,
+}
+
+interface Execution {
+  fn: Function;
+  ms: number;
+  args: any;
+  mode: MODE;
+}
+
+interface NextExecution extends Execution {
+  nextTick: number;
+}
+
+const fnStacks = new Map<number, NextExecution>();
 const runArray = new Set();
 let rafStarted = false;
 let startId = 0;
@@ -11,7 +25,7 @@ function getTimeStamp() {
   return new Date().getTime();
 }
 
-function executeFn(value) {
+function executeFn(value: NextExecution) {
   const { fn, args } = value;
   fn(...args);
 }
@@ -22,11 +36,11 @@ function runFunction() {
   runArray.clear();
 }
 
-const checkTick = currentTimeTick => (value, id) => {
+const checkTick = (currentTimeTick: number) => (value: NextExecution, id: number) => {
   const { nextTick, ms, mode } = value;
   if (currentTimeTick - nextTick >= 0) {
     runArray.add(value);
-    if (mode === MODE_TIMEOUT) {
+    if (mode === MODE.MODE_TIMEOUT) {
       fnStacks.delete(id);
     } else {
       fnStacks.set(id, {
@@ -48,7 +62,7 @@ function loop() {
   raf(loop);
 }
 
-function addId({ fn, ms = 0, args, mode }) {
+function addId({ fn, ms, args, mode }: Execution) {
   if (!fn) return null;
   const currentId = startId;
   fnStacks.set(currentId, {
@@ -66,7 +80,7 @@ function addId({ fn, ms = 0, args, mode }) {
   return currentId;
 }
 
-function removeId(id) {
+function removeId(id: number) {
   if (fnStacks.has(id)) {
     fnStacks.delete(id);
   }
@@ -76,8 +90,8 @@ function removeId(id) {
 }
 
 export default {
-  setTimeout: (fn, ms = 0, ...args) => addId({ fn, ms, args, mode: MODE_TIMEOUT }),
+  setTimeout: (fn: Function, ms = 0, ...args: any) => addId({ fn, ms, args, mode: MODE.MODE_TIMEOUT }),
   clearTimeout: removeId,
-  setInterval: (fn, ms = 0, ...args) => addId({ fn, ms, args, mode: MODE_INTERVAL }),
+  setInterval: (fn: Function, ms = 0, ...args: any) => addId({ fn, ms, args, mode: MODE.MODE_INTERVAL }),
   clearInterval: removeId,
 };
