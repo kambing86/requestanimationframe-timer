@@ -28,7 +28,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### ⚠ BREAKING CHANGES
 
-* commonjs must use require('requestanimationframe-timer').default
+~~* commonjs must use require('requestanimationframe-timer').default~~
+
+fixed in [3.0.3](https://github.com/kambing86/requestanimationframe-timer/releases/tag/v3.0.3)
 
 ### Bug Fixes
 
